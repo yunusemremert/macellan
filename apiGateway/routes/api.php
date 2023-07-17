@@ -21,7 +21,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(\App\Http\Controllers\RefectoryController::class)->group(function () {
     Route::post('/refectory/login-qr', 'loginQr')->name("loginQr");
 });
-
-Route::controller(\App\Http\Controllers\PaymentController::class)->group(function () {
-    Route::post('/payment/pay', 'pay')->name("pay");
-});

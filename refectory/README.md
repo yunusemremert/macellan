@@ -21,6 +21,9 @@ php artisan serve --port=8001
 .env file
 ```bash
 ACCEPTED_SECRETS=
+
+PAYMENT_SERVICE_BASE_URL=http://127.0.0.1:8002/api
+PAYMENT_SERVICE_SECRET_KEY=
 ```
 
 ---

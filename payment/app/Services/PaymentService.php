@@ -11,8 +11,12 @@ final class PaymentService
 
     }
 
-    public function pay()
+    public function pay(): array
     {
-
+        return [
+            'code' => 200,
+            'status' => 'sucess',
+            'message' => 'Payment true!'
+        ];
     }
 }

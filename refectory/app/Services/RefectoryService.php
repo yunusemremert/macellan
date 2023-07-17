@@ -7,47 +7,19 @@ use Illuminate\Support\Facades\Log;
 
 final class RefectoryService
 {
+    public function __construct(private readonly PaymentService $paymentService)
+    {
+    }
+
     public function loginQr(int $userId): array
     {
         $refectoryCount = $this->getCountDailyRefectory();
         $transitionCount = $this->getCountDailyUserRefectory($userId);
 
-        if ($transitionCount === 0 && $refectoryCount < 50) {
-            try {
-                $this->addDailyRefectory($userId);
+        if (($transitionCount === 0 && $refectoryCount < 50) || ($transitionCount === 1 && $refectoryCount <= 50)) {
+            Log::info('Refectory quee insert for user: {id}', ['id' => $userId]);
 
-                Log::info('Refectory quee insert for user: {id}', ['id' => $userId]);
-
-                return [
-                    'code' => 200,
-                    'status' => 'true',
-                    'message' => 'Data processed!'
-                ];
-            } catch (\Throwable $exception) {
-                return [
-                    'code' => 400,
-                    'status' => 'false',
-                    'message' => $exception->getMessage()
-                ];
-            }
-        } else if ($transitionCount === 1 && $refectoryCount <= 50) {
-            try {
-                $this->updateDailyRefectory($userId, $transitionCount + 1);
-
-                Log::info('Refectory quee update for user: {id}', ['id' => $userId]);
-
-                return [
-                    'code' => 200,
-                    'status' => 'true',
-                    'message' => 'Data processed!'
-                ];
-            } catch (\Throwable $exception) {
-                return [
-                    'code' => 400,
-                    'status' => 'false',
-                    'message' => $exception->getMessage()
-                ];
-            }
+            return $this->loginQrPayment($userId);
         } else {
             if ($transitionCount == 2) {
                 return [
@@ -102,5 +74,27 @@ final class RefectoryService
                 'transition_count' => $transitionCount,
                 'updated_at' => now()
             ]);
+    }
+
+    public function loginQrPayment(int $userId): array
+    {
+        $paymentResponse = $this->paymentService->pay($userId);
+
+        if ($paymentResponse['code'] == 200) {
+            $this->loginQrApprove($userId);
+        }
+
+        return $paymentResponse;
+    }
+
+    public function loginQrApprove(int $userId): void
+    {
+        $transitionCount = $this->getCountDailyUserRefectory($userId);
+
+        if (!$transitionCount) {
+            $this->addDailyRefectory($userId);
+        } else {
+            $this->updateDailyRefectory($userId, $transitionCount + 1);
+        }
     }
 }
