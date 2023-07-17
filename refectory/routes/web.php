@@ -14,5 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return response()->json([
+        'code' => 200,
+        'status' => 'success',
+        'message' => 'refectory service'
+    ], 200);
 });
+

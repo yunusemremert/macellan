@@ -31,4 +31,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'refectory' => [
+        'baseUrl' => env('REFECTORY_SERVICE_BASE_URL'),
+        'secretKey' => env('REFECTORY_SERVICE_SECRET_KEY')
+    ],
+
+    'payment' => [
+        'baseUrl' => env('PAYMENT_SERVICE_BASE_URL'),
+        'secretKey' => env('PAYMENT_SERVICE_SECRET_KEY')
+    ]
+
 ];
