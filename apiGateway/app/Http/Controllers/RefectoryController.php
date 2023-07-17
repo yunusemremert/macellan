@@ -53,7 +53,7 @@ class RefectoryController extends Controller
 
         return response()->json([
             'code' => 200,
-            'status' => 'true',
+            'status' => 'sucess',
             'message' => 'Processing data!'
         ], 200);
     }

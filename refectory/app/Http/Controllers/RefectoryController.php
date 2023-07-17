@@ -37,12 +37,6 @@ class RefectoryController extends Controller
 
         $response = $this->refectoryService->loginQr($item['userId']);
 
-        dd($response);
-
-        return response()->json([
-            'code' => 200,
-            'status' => 'true',
-            'message' => 'Data processed!'
-        ], 200);
+        return response()->json($response, $response['code']);
     }
 }

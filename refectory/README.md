@@ -22,3 +22,7 @@ php artisan serve --port=8001
 ```bash
 ACCEPTED_SECRETS=
 ```
+
+---
+
+.env file database create & configuration
