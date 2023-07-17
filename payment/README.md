@@ -15,3 +15,10 @@ composer install
 ```bash
 php artisan serve --port=8002
 ```
+
+---
+
+.env file
+```bash
+ACCEPTED_SECRETS=
+```
