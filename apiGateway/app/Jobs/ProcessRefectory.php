@@ -32,9 +32,7 @@ class ProcessRefectory implements ShouldQueue
     {
         $refectoryService = new RefectoryService();
 
-        $response = $refectoryService->loginQr($this->userId);
-
-        Log::info('Refectory service call', ['message' => $response]);
+        $refectoryService->loginQr($this->userId);
     }
 
     public function failed(Throwable $exception): void

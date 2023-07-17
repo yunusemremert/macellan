@@ -19,22 +19,26 @@ final class RefectoryService
         if (($transitionCount === 0 && $refectoryCount < 50) || ($transitionCount === 1 && $refectoryCount <= 50)) {
             Log::info('Refectory quee insert for user: {id}', ['id' => $userId]);
 
-            return $this->loginQrPayment($userId);
+            $response = $this->loginQrPayment($userId);
         } else {
             if ($transitionCount == 2) {
-                return [
+                $response = [
                     'code' => 400,
                     'status' => 'false',
                     'message' => 'The dining hall entrance limit has been exceeded!'
                 ];
             } else {
-                return [
+                $response = [
                     'code' => 400,
                     'status' => 'false',
                     'message' => 'The total dining hall limit has been exceeded!'
                 ];
             }
         }
+
+        Log::info('Refectory service call', ['message' => $response]);
+
+        return $response;
     }
 
     private function getCountDailyRefectory(): int
