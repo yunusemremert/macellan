@@ -28,4 +28,4 @@ PAYMENT_SERVICE_SECRET_KEY=
 
 ---
 
-.env file database create & configuration
+#### Please take care of creating and configuring .env file database..
