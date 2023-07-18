@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -66,21 +67,41 @@ final class RefectoryService
 
     private function getCountDailyRefectory(): int
     {
-        return DB::table('daily_passes')
-            ->whereDate('transition_date', now()->format('Y-m-d'))
-            ->distinct()
-            ->count();
+        $totalDailyCountCache = Cache::get("total:daily_count");
+
+        if ($totalDailyCountCache === null || $totalDailyCountCache < 50) {
+            $totalDailyCount = DB::table('daily_passes')
+                ->whereDate('transition_date', now()->format('Y-m-d'))
+                ->distinct()
+                ->count();
+
+            Cache::put("total:daily_count", $totalDailyCount, 60);
+
+            return $totalDailyCount;
+        }
+
+        return $totalDailyCountCache;
     }
 
     private function getCountDailyUserRefectory(string $userId): int
     {
-        $dailyCountUser = DB::table('daily_passes')
-            ->select('transition_count')
-            ->where('user_id', $userId)
-            ->whereDate('transition_date', now()->format('Y-m-d'))
-            ->first();
+        $dailyCountCache = Cache::get("user:daily_count:$userId");
 
-        return $dailyCountUser->transition_count ?? 0;
+        if ($dailyCountCache === null || $dailyCountCache < 2) {
+            $dailyCountUser = DB::table('daily_passes')
+                ->select('transition_count')
+                ->where('user_id', $userId)
+                ->whereDate('transition_date', now()->format('Y-m-d'))
+                ->first();
+
+            $dailyCount = $dailyCountUser->transition_count ?? 0;
+
+            Cache::put("user:daily_count:$userId", $dailyCount, 720);
+
+            return $dailyCount;
+        }
+
+        return $dailyCountCache;
     }
 
     private function addDailyRefectory(string $userId): void
