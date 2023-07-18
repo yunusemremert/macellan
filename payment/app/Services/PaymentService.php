@@ -37,7 +37,7 @@ final class PaymentService
                 Log::error('Payment service response error', ['status' => $response->status()]);
 
                 $responseMessage = [
-                    'code' => 200,
+                    'code' => 400,
                     'status' => 'false',
                     'message' => 'TAG-QR payment notification failed!'
                 ];
@@ -49,7 +49,7 @@ final class PaymentService
             ]);
 
             $responseMessage = [
-                'code' => 200,
+                'code' => 400,
                 'status' => 'false',
                 'message' => $exception->getTraceAsString()
             ];

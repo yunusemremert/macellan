@@ -38,7 +38,7 @@ final class RefectoryService
                 ]);
 
                 $responseMessage = [
-                    'code' => 200,
+                    'code' => 400,
                     'status' => 'false',
                     'message' => $exception->getTraceAsString()
                 ];

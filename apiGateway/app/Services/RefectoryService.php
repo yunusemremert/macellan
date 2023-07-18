@@ -28,7 +28,7 @@ final class RefectoryService
             if ($response->ok()) {
                 Log::info('Refectory service response success', $responseContent);
             } else {
-                Log::error('Refectory service response error', ['status' => $response->status()]);
+                Log::error('Refectory service response error', $responseContent);
             }
         } catch (\Throwable $exception) {
             Log::critical('Refectory quee error', [

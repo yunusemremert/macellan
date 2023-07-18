@@ -25,7 +25,7 @@ final class PaymentService
             if ($response->ok()) {
                 Log::info('Payment service response success', $responseContent);
             } else {
-                Log::error('Payment service response error', ['status' => $response->status()]);
+                Log::error('Payment service response error', $responseContent);
             }
         } catch (\Throwable $exception) {
             Log::critical('Payment quee error', [

@@ -23,7 +23,7 @@ class RefectoryController extends Controller
 
         return response()->json([
             'code' => 200,
-            'status' => 'false',
+            'status' => 'success',
             'message' => 'Hash valid!'
         ], 200);
     }
