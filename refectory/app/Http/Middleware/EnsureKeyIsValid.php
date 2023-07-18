@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureKeyIsValid
@@ -15,13 +16,16 @@ class EnsureKeyIsValid
      */
     public function handle(Request $request, Closure $next): Response
     {
-        //$request->header('Authorization')
         if ($request->bearerToken() !== env('ACCEPTED_SECRETS')) {
-            return response()->json([
+            $message = [
                 'code' => 401,
                 'status' => 'false',
                 'message' => 'Unauthorized!'
-            ], 401);
+            ];
+
+            Log::error("Key is valid message: Unauthorized", $message);
+
+            return response()->json($message, 401);
         }
 
         return $next($request);

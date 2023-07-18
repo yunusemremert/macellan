@@ -7,36 +7,54 @@ use Illuminate\Support\Facades\Log;
 
 final class RefectoryService
 {
-    public function __construct(private readonly PaymentService $paymentService)
+    public function __construct()
     {
     }
 
-    public function loginQr(int $userId): array
+    public function loginQr(string $userId): array
     {
         $refectoryCount = $this->getCountDailyRefectory();
         $transitionCount = $this->getCountDailyUserRefectory($userId);
 
         if (($transitionCount === 0 && $refectoryCount < 50) || ($transitionCount === 1 && $refectoryCount <= 50)) {
-            Log::info('Refectory quee insert for user: {id}', ['id' => $userId]);
+            Log::info('Refectory Service loginQR method open', ['id' => $userId]);
 
-            $response = $this->loginQrPayment($userId);
+            try {
+                if (!$transitionCount) {
+                    $this->addDailyRefectory($userId);
+                } else {
+                    $this->updateDailyRefectory($userId, $transitionCount + 1);
+                }
+
+                $response = [
+                    'code' => 200,
+                    'status' => 'success',
+                    'message' => 'Allowed to enter the dining hall!'
+                ];
+            } catch (\Throwable $exception) {
+                $response = [
+                    'code' => 200,
+                    'status' => 'false',
+                    'message' => $exception->getMessage()
+                ];
+            }
         } else {
             if ($transitionCount == 2) {
                 $response = [
-                    'code' => 400,
+                    'code' => 200,
                     'status' => 'false',
                     'message' => 'The dining hall entrance limit has been exceeded!'
                 ];
             } else {
                 $response = [
-                    'code' => 400,
+                    'code' => 200,
                     'status' => 'false',
                     'message' => 'The total dining hall limit has been exceeded!'
                 ];
             }
         }
 
-        Log::info('Refectory service call', ['message' => $response]);
+        Log::info('Refectory Service loginQR method close', ['message' => $response]);
 
         return $response;
     }
@@ -49,7 +67,7 @@ final class RefectoryService
             ->count();
     }
 
-    private function getCountDailyUserRefectory(int $userId): int
+    private function getCountDailyUserRefectory(string $userId): int
     {
         $dailyCountUser = DB::table('daily_passes')
             ->select('transition_count')
@@ -60,7 +78,7 @@ final class RefectoryService
         return $dailyCountUser->transition_count ?? 0;
     }
 
-    private function addDailyRefectory(int $userId): void
+    private function addDailyRefectory(string $userId): void
     {
         DB::table('daily_passes')->insert([
             'user_id' => $userId,
@@ -69,7 +87,7 @@ final class RefectoryService
         ]);
     }
 
-    private function updateDailyRefectory(int $userId, int $transitionCount): void
+    private function updateDailyRefectory(string $userId, int $transitionCount): void
     {
         DB::table('daily_passes')
             ->where('user_id', $userId)
@@ -78,27 +96,5 @@ final class RefectoryService
                 'transition_count' => $transitionCount,
                 'updated_at' => now()
             ]);
-    }
-
-    public function loginQrPayment(int $userId): array
-    {
-        $paymentResponse = $this->paymentService->pay($userId);
-
-        if ($paymentResponse['code'] == 200) {
-            $this->loginQrApprove($userId);
-        }
-
-        return $paymentResponse;
-    }
-
-    public function loginQrApprove(int $userId): void
-    {
-        $transitionCount = $this->getCountDailyUserRefectory($userId);
-
-        if (!$transitionCount) {
-            $this->addDailyRefectory($userId);
-        } else {
-            $this->updateDailyRefectory($userId, $transitionCount + 1);
-        }
     }
 }

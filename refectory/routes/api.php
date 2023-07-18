@@ -20,6 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware(\App\Http\Middleware\EnsureKeyIsValid::class)->group(function () {
     Route::post('/login-qr', [\App\Http\Controllers\RefectoryController::class, 'loginQr'])->name("loginQr");
-
-    // TODO : withoutMiddleware = none token
 });

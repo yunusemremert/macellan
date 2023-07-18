@@ -12,30 +12,37 @@ class RefectoryController extends Controller
     {
     }
 
-    public function loginQr(Request $request): \Illuminate\Http\JsonResponse
+    public function loginQr(Request $request)
     {
-        $content = $request->getContent();
-        $item = json_decode($content, true);
+        $content = json_decode($request->getContent(), true);
 
-        if (empty($item)) {
-            return response()->json([
-                'code' => 406,
+        if (empty($content)) {
+            $message = [
+                'code' => 400,
                 'status' => 'false',
-                'message' => 'Empty data!'
-            ], 406);
+                'message' => 'Bad request!'
+            ];
+
+            Log::warning("Refectory Service controller message: Empty data", $message);
+
+            return response()->json($message, 400);
         }
 
-        if (!isset($item['userId'])) {
-            return response()->json([
+        if (!isset($content['userId'])) {
+            $message = [
                 'code' => 400,
                 'status' => 'false',
                 'message' => 'Invalid data!'
-            ], 400);
+            ];
+
+            Log::error("Refectory Service controller message: Invalid data", $message);
+
+            return response()->json($message, 400);
         }
 
-        Log::info('Refectory microservice log: {id}', ['id' => $item['userId']]);
+        Log::info('Refectory Service start', $content);
 
-        $response = $this->refectoryService->loginQr($item['userId']);
+        $response = $this->refectoryService->loginQr($content['userId']);
 
         return response()->json($response, $response['code']);
     }

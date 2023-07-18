@@ -31,9 +31,4 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'payment' => [
-        'baseUrl' => env('PAYMENT_SERVICE_BASE_URL'),
-        'secretKey' => env('PAYMENT_SERVICE_SECRET_KEY')
-    ]
-
 ];
