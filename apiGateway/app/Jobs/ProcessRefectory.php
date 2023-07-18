@@ -15,14 +15,14 @@ class ProcessRefectory implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private int $userId;
+    private array $content;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(int $userId)
+    public function __construct(array $content)
     {
-        $this->userId = $userId;
+        $this->content = $content;
     }
 
     /**
@@ -30,13 +30,15 @@ class ProcessRefectory implements ShouldQueue
      */
     public function handle(): void
     {
+        Log::info('Refectory quee in service start', $this->content);
+
         $refectoryService = new RefectoryService();
 
-        $refectoryService->loginQr($this->userId);
+        $refectoryService->loginQr($this->content);
     }
 
     public function failed(Throwable $exception): void
     {
-        Log::emergency('The refectory quee system is down!', ['message' => $exception->getMessage()]);
+        Log::emergency('The refectory queue system is down!', ['message' => $exception->getMessage()]);
     }
 }

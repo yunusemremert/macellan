@@ -18,6 +18,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(\App\Http\Controllers\RefectoryController::class)->group(function () {
-    Route::post('/refectory/login-qr', 'loginQr')->name("loginQr");
+Route::middleware(\App\Http\Middleware\EnsureHashIsValid::class)->group(function () {
+    Route::post('/refectory/login-qr', [\App\Http\Controllers\RefectoryController::class, 'loginQr']);
 });

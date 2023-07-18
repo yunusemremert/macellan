@@ -15,46 +15,16 @@ class RefectoryController extends Controller
 
     public function loginQr(Request $request): \Illuminate\Http\JsonResponse
     {
-        $content = $request->getContent();
-        $items = json_decode($content, true);
+        $content = json_decode($request->getContent(), true);
 
-        if (empty($items)) {
-            return response()->json([
-                'code' => 406,
-                'status' => 'false',
-                'message' => 'Empty data!'
-            ], 406);
-        }
+        Log::info('Refectory quee start', $content);
 
-        $userIds = [];
-
-        foreach ($items as $item) {
-            if (!isset($item['userId'])) {
-                return response()->json([
-                    'code' => 400,
-                    'status' => 'false',
-                    'message' => 'Invalid data!'
-                ], 400);
-            }
-
-            $userIds[] = $item['userId'];
-        }
-
-        $userIds = array_unique($userIds);
-        foreach ($userIds as $userId) {
-            try {
-                Log::info('Refectory quee start for user: {id}', ['id' => $userId]);
-
-                ProcessRefectory::dispatch($userId)->onQueue('refectory');
-            } catch (\Throwable $exception) {
-                Log::critical('Refectory quee error', ['message' => $exception->getMessage()]);
-            }
-        }
+        ProcessRefectory::dispatch($content)->onQueue('refectory');
 
         return response()->json([
             'code' => 200,
-            'status' => 'sucess',
-            'message' => 'Processing data!'
+            'status' => 'false',
+            'message' => 'Hash valid!'
         ], 200);
     }
 }
