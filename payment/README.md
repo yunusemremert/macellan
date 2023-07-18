@@ -2,22 +2,35 @@
 
 # Payment Service
 
-## Installation
+<br>
 
 To get started, follow these steps:
 
-* Please run the following command line in terminal
+#### Please open the terminal of the project and run it (Step: 1, 2, 4)
+
+1. Install the required packages using composer by running the following command:
 
 ```bash
 composer install
 ```
 
-.env file configuration
+2. Please create the **.env** file with the following command line.
+
 ```bash
-ACCEPTED_SECRETS=
+copy .env.example .env
 ```
 
-Start server :
+3. Please fill in the **.env** file with the required configurations below.
+
+```
+ACCEPTED_SECRETS=
+
+TAG_QR_SALT_KEY=
+TAG_QR_CALLBACK_SUCCESS_URL=
+TAG_QR_CALLBACK_FAILED_URL=
+```
+
+4. Please start server
 
 ```bash
 php artisan serve --port=8002

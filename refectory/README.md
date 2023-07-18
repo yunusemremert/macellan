@@ -2,11 +2,11 @@
 
 # Refectory Service
 
-## Installation
+<br>
 
 To get started, follow these steps:
 
-#### Please run the following command line in terminal
+#### Please open the terminal of the project and run it (Step: 1, 2, 4, 5)
 
 1. Install the required packages using composer by running the following command:
 
@@ -14,21 +14,26 @@ To get started, follow these steps:
 composer install
 ```
 
-2. Create a ".env" file and fill in the necessary database configurations.
+2. Please create the **.env** file with the following command line.
 
 ```bash
-ACCEPTED_SECRETS=
-
-PAYMENT_SERVICE_BASE_URL=http://127.0.0.1:8002/api
-PAYMENT_SERVICE_SECRET_KEY=
+copy .env.example .env
 ```
 
-3. Migrate your database by running the following command:
+3. Please fill in the **.env** file with the required configurations below.
+
+```
+ACCEPTED_SECRETS=
+```
+
+4. Migrate your database by running the following command:
+
 ```bash
 php artisan migrate
 ```
 
-4. start server
+5. Please start server
+
 ```bash
 php artisan serve --port=8001
 ```

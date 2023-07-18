@@ -2,27 +2,25 @@
 
 # ApiGateway
 
-## Installation App
+<br>
 
 To get started, follow these steps:
 
-#### Please open the terminal of the project and run it (Step 1, Step 2)
+#### Please open the terminal of the project and run it (Step: 1, 2, 4)
 
-Step 1:
+1. Install the required packages using composer by running the following command:
 
 ```bash
 composer install
 ```
 
-Step 2:
+2. Please create the **.env** file with the following command line.
 
 ```bash
 copy .env.example .env
 ```
 
-Step 3:
-
-Please add the following lines to your file for **.env** file configuration.
+3. Please fill in the **.env** file with the required configurations below.
 
 ```
 TAG_QR_SALT_KEY=
@@ -34,9 +32,8 @@ PAYMENT_SERVICE_BASE_URL=http://127.0.0.1:8002/api
 PAYMENT_SERVICE_SECRET_KEY=
 ```
 
-Step 4:
+4. Please start server
 
-Please run the following command line on terminal screen to boot the application.
 ```bash
 php artisan serve --port=8000
 ```
