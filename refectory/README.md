@@ -6,19 +6,16 @@
 
 To get started, follow these steps:
 
-* Please run the following command line in terminal
+#### Please run the following command line in terminal
+
+1. Install the required packages using composer by running the following command:
 
 ```bash
 composer install
 ```
 
-```bash
-php artisan serve --port=8001
-```
+2. Create a ".env" file and fill in the necessary database configurations.
 
----
-
-.env file
 ```bash
 ACCEPTED_SECRETS=
 
@@ -26,6 +23,12 @@ PAYMENT_SERVICE_BASE_URL=http://127.0.0.1:8002/api
 PAYMENT_SERVICE_SECRET_KEY=
 ```
 
----
+3. Migrate your database by running the following command:
+```bash
+php artisan migrate
+```
 
-#### Please take care of creating and configuring .env file database..
+4. start server
+```bash
+php artisan serve --port=8001
+```
