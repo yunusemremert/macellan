@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "d83e73a6-9856-4ee4-8906-f62456cbe70b",
+		"name": "Macellan",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "loginQR",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"price\": \"55.33\",\n    \"point\": \"0.00\",\n    \"order_id\": \"3307333742\",\n    \"user_id\": \"3b43544b-10b4-45e2-ab81-2b2b3f1917e8\",\n    \"ref_code\": \"0781534070\",\n    \"callback_success_url\": \"https://case.altpay.dev/success\",\n    \"callback_fail_url\": \"https://case.altpay.dev/fail\",\n    \"hash\": \"2918f946ce80bd37e7dbf4ade4888df9d281de0d\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/refectory/login-qr",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"refectory",
+						"login-qr"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "apiGateway",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refectoryServiceLoginQR",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "REFECTORYSERVICESECRETKEY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\":\"3b43544b-10b4-45e2-ab81-2b2b3f1917e8\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/api/login-qr",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"login-qr"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "paymentServicePay",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "PAYMENTSERVICESECRETKEY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"price\": \"55.33\",\n    \"point\": \"0.00\",\n    \"order_id\": \"3307333742\",\n    \"user_id\": \"3b43544b-10b4-45e2-ab81-2b2b3f1917e8\",\n    \"ref_code\": \"0781534070\",\n    \"callback_success_url\": \"https://case.altpay.dev/success\",\n    \"callback_fail_url\": \"https://case.altpay.dev/fail\",\n    \"hash\": \"2918f946ce80bd37e7dbf4ade4888df9d281de0d\",\n    \"status\": \"true\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8002/api/pay",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8002",
+					"path": [
+						"api",
+						"pay"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
