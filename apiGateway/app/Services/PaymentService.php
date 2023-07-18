@@ -11,8 +11,8 @@ final class PaymentService
 
     public function __construct()
     {
-        $this->client = Http::baseUrl(config('services.refectory.baseUrl'))
-            ->withToken(config('services.refectory.secretKey'));
+        $this->client = Http::baseUrl(config('services.payment.baseUrl'))
+            ->withToken(config('services.payment.secretKey'));
     }
 
     public function pay(array $content): void
@@ -28,9 +28,9 @@ final class PaymentService
                 Log::error('Payment service response error', ['status' => $response->status()]);
             }
         } catch (\Throwable $exception) {
-            Log::critical('Refectory quee error', [
+            Log::critical('Payment quee error', [
                 'code' => $exception->getCode(),
-                'message' => $exception->getMessage()
+                'message' => $exception->getTraceAsString()
             ]);
         }
     }

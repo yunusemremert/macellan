@@ -38,6 +38,6 @@ class ProcessRefectory implements ShouldQueue
 
     public function failed(Throwable $exception): void
     {
-        Log::emergency('The refectory queue system is down!', ['message' => $exception->getMessage()]);
+        Log::emergency('The refectory queue system is down!', ['message' => $exception->getTraceAsString()]);
     }
 }

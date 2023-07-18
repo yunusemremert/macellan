@@ -37,6 +37,6 @@ class ProcessPayment implements ShouldQueue
 
     public function failed(\Throwable $exception): void
     {
-        Log::emergency('The payment queue system is down!', ['message' => $exception->getMessage()]);
+        Log::emergency('The payment queue system is down!', ['message' => $exception->getTraceAsString()]);
     }
 }

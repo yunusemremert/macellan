@@ -25,7 +25,7 @@ Step 3:
 Please add the following lines to your file for **.env** file configuration.
 
 ```
-QR_TAG_SALT_KEY=
+TAG_QR_SALT_KEY=
 
 REFECTORY_SERVICE_BASE_URL=http://127.0.0.1:8001/api
 REFECTORY_SERVICE_SECRET_KEY=

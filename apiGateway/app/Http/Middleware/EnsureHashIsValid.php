@@ -30,7 +30,7 @@ class EnsureHashIsValid
             return response()->json($message, 400);
         }
 
-        if (!isset($content['hash']) || !isset($content['callback_success_url']) || !isset($content['callback_fail_url'])) {
+        if (!isset($content['hash']) || !isset($content['price']) || !isset($content['callback_success_url']) || !isset($content['callback_fail_url'])) {
             $message = [
                 'code' => 400,
                 'status' => 'false',
@@ -61,7 +61,7 @@ class EnsureHashIsValid
     {
         $cHash = sha1(sprintf(
             '%s%s%s%s',
-            env('QR_TAG_SALT_KEY'),
+            env('TAG_QR_SALT_KEY'),
             $request['callback_fail_url'],
             $request['callback_success_url'],
             $request['price'],

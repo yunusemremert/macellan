@@ -33,7 +33,7 @@ final class RefectoryService
         } catch (\Throwable $exception) {
             Log::critical('Refectory quee error', [
                 'code' => $exception->getCode(),
-                'message' => $exception->getMessage()
+                'message' => $exception->getTraceAsString()
             ]);
         }
 
