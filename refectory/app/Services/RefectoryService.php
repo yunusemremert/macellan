@@ -26,27 +26,32 @@ final class RefectoryService
                     $this->updateDailyRefectory($userId, $transitionCount + 1);
                 }
 
-                $response = [
+                $responseMessage = [
                     'code' => 200,
                     'status' => 'success',
                     'message' => 'Allowed to enter the dining hall!'
                 ];
             } catch (\Throwable $exception) {
-                $response = [
+                Log::critical('Payment service error', [
+                    'code' => $exception->getCode(),
+                    'message' => $exception->getTraceAsString()
+                ]);
+
+                $responseMessage = [
                     'code' => 200,
                     'status' => 'false',
-                    'message' => $exception->getMessage()
+                    'message' => $exception->getTraceAsString()
                 ];
             }
         } else {
             if ($transitionCount == 2) {
-                $response = [
+                $responseMessage = [
                     'code' => 200,
                     'status' => 'false',
                     'message' => 'The dining hall entrance limit has been exceeded!'
                 ];
             } else {
-                $response = [
+                $responseMessage = [
                     'code' => 200,
                     'status' => 'false',
                     'message' => 'The total dining hall limit has been exceeded!'
@@ -54,9 +59,9 @@ final class RefectoryService
             }
         }
 
-        Log::info('Refectory Service loginQR method close', ['message' => $response]);
+        Log::info('Refectory Service loginQR method close', ['message' => $responseMessage]);
 
-        return $response;
+        return $responseMessage;
     }
 
     private function getCountDailyRefectory(): int

@@ -12,7 +12,7 @@ class RefectoryController extends Controller
     {
     }
 
-    public function loginQr(Request $request)
+    public function loginQr(Request $request): \Illuminate\Http\JsonResponse
     {
         $content = json_decode($request->getContent(), true);
 
