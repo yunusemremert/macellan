@@ -3,3 +3,7 @@
 # Refectory MicroService
 
 Microservice API development that enables turnstile management of a dining hall with two turnstiles.
+
+<br>
+
+![alt text](system-design-architecture.png)
