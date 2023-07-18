@@ -19,7 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware(\App\Http\Middleware\EnsureKeyIsValid::class)->group(function () {
-    Route::post('/pay', [\App\Http\Controllers\PaymentController::class, 'pay'])->name("pay");
-
-    // TODO : withoutMiddleware = none token
+    Route::post('/pay', [\App\Http\Controllers\PaymentController::class, 'pay']);
 });

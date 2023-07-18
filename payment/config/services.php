@@ -31,4 +31,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'tagqr' => [
+        'key' => env('TAG_QR_SALT_KEY'),
+        'callback' => [
+            'success_url' => env('TAG_QR_CALLBACK_SUCCESS_URL'),
+            'failed_url' => env('TAG_QR_CALLBACK_FAILED_URL')
+        ]
+    ],
+
 ];
