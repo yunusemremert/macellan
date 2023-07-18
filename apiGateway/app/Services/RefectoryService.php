@@ -18,10 +18,14 @@ final class RefectoryService
     public function loginQr(array $content): void
     {
         try {
-            $response = $this->client->post('/login-qr', $content);
+            $response = $this->client->post('/login-qr', [
+                'userId' => $content['user_id']
+            ]);
+
+            $responseContent = json_decode($response->body(), true);
 
             if ($response->ok()) {
-                Log::info('Refectory service response success', json_decode($response->body(), true));
+                Log::info('Refectory service response success', $responseContent);
             } else {
                 Log::error('Refectory service response error', ['status' => $response->status()]);
             }
@@ -30,6 +34,12 @@ final class RefectoryService
                 'code' => $exception->getCode(),
                 'message' => $exception->getMessage()
             ]);
+
+            return;
+        }
+
+        if ($response->ok() && $responseContent['status'] == 'success') {
+            // TODO : paymentService call
         }
     }
 }

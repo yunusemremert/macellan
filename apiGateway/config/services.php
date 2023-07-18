@@ -36,4 +36,9 @@ return [
         'secretKey' => env('REFECTORY_SERVICE_SECRET_KEY')
     ],
 
+    'payment' => [
+        'baseUrl' => env('PAYMENT_SERVICE_BASE_URL'),
+        'secretKey' => env('PAYMENT_SERVICE_SECRET_KEY')
+    ],
+
 ];
