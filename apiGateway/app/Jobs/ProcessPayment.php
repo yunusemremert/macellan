@@ -2,16 +2,15 @@
 
 namespace App\Jobs;
 
-use App\Services\RefectoryService;
+use App\Services\PaymentService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use Throwable;
 
-class ProcessRefectory implements ShouldQueue
+class ProcessPayment implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -30,14 +29,14 @@ class ProcessRefectory implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info('Refectory quee in service start', $this->content);
+        Log::info('Payment quee in service start', $this->content);
 
-        $refectoryService = new RefectoryService();
-        $refectoryService->loginQr($this->content);
+        $paymentService = new PaymentService();
+        $paymentService->pay($this->content);
     }
 
-    public function failed(Throwable $exception): void
+    public function failed(\Throwable $exception): void
     {
-        Log::emergency('The refectory queue system is down!', ['message' => $exception->getMessage()]);
+        Log::emergency('The payment queue system is down!', ['message' => $exception->getMessage()]);
     }
 }
