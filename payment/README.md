@@ -12,13 +12,13 @@ To get started, follow these steps:
 composer install
 ```
 
-```bash
-php artisan serve --port=8002
-```
-
----
-
-.env file
+.env file configuration
 ```bash
 ACCEPTED_SECRETS=
+```
+
+Start server :
+
+```bash
+php artisan serve --port=8002
 ```

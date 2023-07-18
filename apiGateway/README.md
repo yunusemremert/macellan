@@ -12,15 +12,17 @@ To get started, follow these steps:
 composer install
 ```
 
-```bash
-php artisan serve --port=8000
-```
+.env file configuration
 
----
-.env file
 ```bash
 REFECTORY_SERVICE_BASE_URL=http://127.0.0.1:8001/api
 REFECTORY_SERVICE_SECRET_KEY=
 PAYMENT_SERVICE_BASE_URL=http://127.0.0.1:8002/api
 PAYMENT_SERVICE_SECRET_KEY=
+```
+
+Start server :
+
+```bash
+php artisan serve --port=8000
 ```
