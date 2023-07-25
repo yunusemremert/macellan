@@ -14,7 +14,7 @@ class RefectoryController extends Controller
 
     public function loginQr(Request $request): \Illuminate\Http\JsonResponse
     {
-        $content = json_decode($request->getContent(), true);
+        $content = $request->all();
 
         if (empty($content)) {
             $message = [
@@ -28,7 +28,7 @@ class RefectoryController extends Controller
             return response()->json($message, 400);
         }
 
-        if (!isset($content['userId'])) {
+        if (!$request->has('userId') || empty($request->get('userId'))) {
             $message = [
                 'code' => 400,
                 'status' => 'false',
@@ -42,7 +42,7 @@ class RefectoryController extends Controller
 
         Log::info('Refectory Service start', $content);
 
-        $response = $this->refectoryService->loginQr($content['userId']);
+        $response = $this->refectoryService->loginQr($request->get('userId'));
 
         return response()->json($response, $response['code']);
     }
