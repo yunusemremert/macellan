@@ -68,7 +68,7 @@ final class PaymentService
             $request->get('price'),
             $request->get('callback_success_url'),
             $request->get('callback_fail_url'),
-            env('TAG_QR_SALT_KEY'),
+            config('services.tagqr.key'),
         ));
     }
 }
