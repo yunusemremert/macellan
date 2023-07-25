@@ -45,19 +45,7 @@ final class RefectoryService
                 ];
             }
         } else {
-            if ($transitionCount == 2) {
-                $responseMessage = [
-                    'code' => 200,
-                    'status' => 'false',
-                    'message' => 'The dining hall entrance limit has been exceeded!'
-                ];
-            } else {
-                $responseMessage = [
-                    'code' => 200,
-                    'status' => 'false',
-                    'message' => 'The total dining hall limit has been exceeded!'
-                ];
-            }
+            $responseMessage = $this->returnResponseMessage($transitionCount);
         }
 
         Log::info('Refectory Service loginQR method close', ['message' => $responseMessage]);
@@ -122,5 +110,24 @@ final class RefectoryService
                 'transition_count' => $transitionCount,
                 'updated_at' => now()
             ]);
+    }
+
+    private function returnResponseMessage(int $transitionCount): array
+    {
+        $responseMessage = [
+            'code' => 200,
+            'status' => 'false',
+            'message' => 'The total dining hall limit has been exceeded!'
+        ];
+
+        if ($transitionCount == 2) {
+            $responseMessage = [
+                'code' => 200,
+                'status' => 'false',
+                'message' => 'The dining hall entrance limit has been exceeded!'
+            ];
+        }
+
+        return $responseMessage;
     }
 }
