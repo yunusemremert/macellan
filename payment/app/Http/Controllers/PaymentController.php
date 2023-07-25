@@ -31,7 +31,8 @@ class PaymentController extends Controller
         if (
             (!$request->has('price') || empty($request->get('price'))) ||
             (!$request->has('callback_success_url') || empty($request->get('callback_success_url'))) ||
-            (!$request->has('callback_fail_url') || empty($request->get('callback_fail_url')))) {
+            (!$request->has('callback_fail_url') || empty($request->get('callback_fail_url')))
+        ) {
             $message = [
                 'code' => 400,
                 'status' => 'false',
