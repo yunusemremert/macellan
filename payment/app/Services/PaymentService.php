@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -11,11 +12,11 @@ final class PaymentService
     {
     }
 
-    public function pay(array $content): array
+    public function pay(Request $request): array
     {
-        $createHash = $this->createHash($content);
+        $createHash = $this->createHash($request);
 
-        $statusUrl = $content['status'] == 'true' ?
+        $statusUrl = $request->get('status') == 'true' ?
             config('services.tagqr.callback.success_url') : config('services.tagqr.callback.failed_url');
 
         try {
@@ -60,13 +61,13 @@ final class PaymentService
         return $responseMessage;
     }
 
-    private function createHash(array $content): string
+    private function createHash(Request $request): string
     {
         return sha1(sprintf(
             '%s%s%s%s',
-            $content['price'],
-            $content['callback_success_url'],
-            $content['callback_fail_url'],
+            $request->get('price'),
+            $request->get('callback_success_url'),
+            $request->get('callback_fail_url'),
             env('TAG_QR_SALT_KEY'),
         ));
     }

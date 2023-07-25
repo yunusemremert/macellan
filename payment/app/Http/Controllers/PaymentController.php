@@ -14,7 +14,7 @@ class PaymentController extends Controller
 
     public function pay(Request $request): \Illuminate\Http\JsonResponse
     {
-        $content = json_decode($request->getContent(), true);
+        $content = $request->all();
 
         if (empty($content)) {
             $message = [
@@ -28,7 +28,7 @@ class PaymentController extends Controller
             return response()->json($message, 400);
         }
 
-        if (!isset($content['price']) || !isset($content['callback_success_url']) || !isset($content['callback_fail_url'])) {
+        if (!$request->has('price') || !$request->has('callback_success_url') || !$request->has('callback_fail_url')) {
             $message = [
                 'code' => 400,
                 'status' => 'false',
@@ -42,7 +42,7 @@ class PaymentController extends Controller
 
         Log::info('Payment Service start', $content);
 
-        $response = $this->paymentService->pay($content);
+        $response = $this->paymentService->pay($request);
 
         return response()->json($response, $response['code']);
     }
