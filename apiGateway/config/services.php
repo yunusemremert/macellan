@@ -41,4 +41,8 @@ return [
         'secretKey' => env('PAYMENT_SERVICE_SECRET_KEY')
     ],
 
+    'tagqr' => [
+        'key' => env('TAG_QR_SALT_KEY'),
+    ],
+
 ];

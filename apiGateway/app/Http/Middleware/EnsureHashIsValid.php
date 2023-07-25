@@ -16,9 +16,7 @@ class EnsureHashIsValid
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $content = json_decode($request->getContent(), true);
-
-        if (empty($content)) {
+        if (empty($request->all())) {
             $message = [
                 'code' => 400,
                 'status' => 'false',
@@ -30,7 +28,12 @@ class EnsureHashIsValid
             return response()->json($message, 400);
         }
 
-        if (!isset($content['hash']) || !isset($content['price']) || !isset($content['callback_success_url']) || !isset($content['callback_fail_url'])) {
+        if (
+            (!$request->has('hash') || empty($request->get('hash'))) ||
+            (!$request->has('price') || empty($request->get('price'))) ||
+            (!$request->has('callback_success_url') || empty($request->get('callback_success_url'))) ||
+            (!$request->has('callback_fail_url') || empty($request->get('callback_fail_url')))
+        ) {
             $message = [
                 'code' => 400,
                 'status' => 'false',
@@ -42,7 +45,7 @@ class EnsureHashIsValid
             return response()->json($message, 400);
         }
 
-        if (!$this->hashCheck($content)) {
+        if (!$this->hashCheck($request)) {
             $message = [
                 'code' => 403,
                 'status' => 'false',
@@ -57,14 +60,14 @@ class EnsureHashIsValid
         return $next($request);
     }
 
-    private function hashCheck(array $request): bool
+    private function hashCheck(Request $request): bool
     {
         $cHash = sha1(sprintf(
             '%s%s%s%s',
-            env('TAG_QR_SALT_KEY'),
-            $request['callback_fail_url'],
-            $request['callback_success_url'],
-            $request['price'],
+            config('services.tagqr.key'),
+            $request->get('callback_fail_url'),
+            $request->get('callback_success_url'),
+            $request->get('price'),
         ));
 
         return $request['hash'] === $cHash;
