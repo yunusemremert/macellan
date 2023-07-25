@@ -28,7 +28,10 @@ class PaymentController extends Controller
             return response()->json($message, 400);
         }
 
-        if (!$request->has('price') || !$request->has('callback_success_url') || !$request->has('callback_fail_url')) {
+        if (
+            (!$request->has('price') || empty($request->get('price'))) ||
+            (!$request->has('callback_success_url') || empty($request->get('callback_success_url'))) ||
+            (!$request->has('callback_fail_url') || empty($request->get('callback_fail_url')))) {
             $message = [
                 'code' => 400,
                 'status' => 'false',
