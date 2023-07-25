@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('daily_passes', function (Blueprint $table) {
             $table->id();
             $table->string('user_id', 100);
-            $table->date('transition_date');
+            $table->date('transition_date')->index('transition_date');
             $table->tinyInteger('transition_count')->default(1);
             $table->timestamps();
         });
